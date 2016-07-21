@@ -1,6 +1,9 @@
 ---
 - name: Test silpion/ansible-httpd
   hosts: all
+  vars:
+    httpd_extra_modules:
+      mod_ldap
   pre_tasks:
     - name: Install aliases
       become: true
@@ -12,5 +15,9 @@
         state: present
         dest: /root/.bashrc
         line: "alias {{ item }}"
+    - name: Disable SELinux
+      become: true
+      changed_when: false
+      command: setenforce 0
   roles:
     - ansible-httpd

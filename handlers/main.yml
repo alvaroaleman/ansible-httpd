@@ -1,2 +1,8 @@
 ---
 # handlers file for ansible-httpd
+- name: service httpd restart
+  tags: httpd
+  become: true
+  service:
+    name: httpd
+    state: restarted

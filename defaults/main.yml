@@ -1,2 +1,5 @@
 ---
 # defaults file for ansible-httpd
+httpd_extra_modules: []
+httpd_listen_on:
+  - '0.0.0.0:80'

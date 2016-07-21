@@ -2,40 +2,28 @@
 
 ## Synopsis
 
-Synopsis...
-
+```
+- hosts: all
+  vars:
+    httpd_listen_on:
+      - 127.0.0.1:2000
+    httpd_extra_modules:
+      - mod_ldap
+```
 ## Description
 
-Description...
+A role to configure a basic httpd
 
-## Requirements
-
-Requirements...
 
 ## Role Variables
 
-* ``variable_name``: Variable description (<!variable type>, default: ``variable default value``)
-
-### complex_variable_name
-
-Complex variable documentation...
-
-### another_complex_variable_name
-
-Complex variable documentation...
-
-## Dependencies
-
-Dependencies...
-
-### Dependency variables
-
-Dependency variables documentation...
+* ``httpd_listen_on``: A list of sockets to listen on (default: ``['0.0.0.0:80']``)
+* ``httpd_extra_modules``: A list of extra packages to install (default: ``[]``)
 
 ## Example Playbook
 
 ```yaml
-- name: Test silpion/ansible-httpd
+- name: Test ansible-httpd
   hosts: all
   roles:
     - ansible-httpd
@@ -77,7 +65,7 @@ rake suite
 
 ## Author information
 
-<!Author Name> @<!email_prefix> <!email_suffix>
+Alvaro Aleman
 
 
 <!-- vim: set nofen ts=4 sw=4 et: -->

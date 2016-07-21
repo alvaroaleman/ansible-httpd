@@ -1,13 +1,45 @@
 ---
+- name: Install httpd
+  tags: httpd
+  become: true
+  package:
+    state: present
+    name: httpd
 
-# Install role facts
-#   This should be the last tasks in main.yml.
-#   Add any other tasks above this one, if applicable.
-- name: Include facts management
-  tags:
-    - httpd
-    - facts
-    - localfacts
-  include: "{{ playbook_dir }}/roles/silpion.lib/tasks/localfacts.yml"
-  vars:
-    namespace: httpd
+- name: Install modules
+  tags: httpd
+  become: true
+  notify: service httpd restart
+  with_items: "{{ httpd_extra_modules }}"
+  package:
+    state: present
+    name: "{{ item }}"
+
+- name: Remove default configs
+  tags: httpd
+  become: true
+  notify: service httpd restart
+  with_items:
+    - autoindex.conf
+    - README
+    - userdir.conf
+    - welcome.conf
+  file:
+    state: absent
+    path: "/etc/httpd/conf.d/{{ item }}"
+
+- name: Deploy httpd.conf
+  tags: httpd
+  become: true
+  notify: service httpd restart
+  template:
+    src: httpd.conf.j2
+    dest: /etc/httpd/conf/httpd.conf
+
+- name: Start and enable httpd
+  tags: httpd
+  become: true
+  service:
+    enabled: true
+    state: started
+    name: httpd
